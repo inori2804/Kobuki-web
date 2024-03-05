@@ -1,40 +1,15 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
-import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "./theme";
-import ROSLIB from "roslib";
-import NAV2D from 'react-nav2djs'
 import React, { Component } from 'react';
+import ROSLIB from "roslib";
+import "./MainPage.css";
+import { Container, Col, Row } from 'react-bootstrap';
+import Parameters from "../Parameters/Parameters";
+import Map from "../Map/Map";
+import Camera from "../Camera/Camera";
+import Controller from "../Controller/Controller";
+import Status from "../Status/Status";
+import Header from "../Header/Header";
 
-
-// function App() {
-//   const [theme, colorMode] = useMode();
-//   const [isSidebar, setIsSidebar] = useState(true);
-
-//   return (
-//     <ColorModeContext.Provider value={colorMode}>
-//       <ThemeProvider theme={theme}>
-//         <CssBaseline />
-//         <div className="app">
-//           <Sidebar isSidebar={isSidebar} />
-//           <main className="content">
-//             <Topbar setIsSidebar={setIsSidebar} />
-//             <Routes>
-//               <Route path="/" element={<Dashboard />} />
-//               <Route path="/team" element={<Team />} />
-//             </Routes>
-//           </main>
-//         </div>
-//       </ThemeProvider>
-//     </ColorModeContext.Provider>
-//   );
-// }
-
-class App extends Component {
+class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -109,20 +84,54 @@ class App extends Component {
 
   render() {
     return (
-      <>
-        <CssBaseline />
-        <div className="app">
-          <Sidebar isSidebar={true} />
-          <main className="content">
-            <Topbar setIsSidebar={true} />
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/team" element={<Team />} />
-            </Routes>
-          </main>
-        </div></>
+      <Container fluid className="container-center">
+        <Row>
+          <Col>
+            <Row>
+              <Col>{this.state.isConnectedWS ? <Camera ros={this.ros} number={1} /> : <Camera ros={null} number={1} />}</Col>
+            </Row>
+            <Row>
+              <Col>{this.state.isConnectedWS ? <Status ros={this.ros} /> : <Status ros={null} />}</Col>
+            </Row>
+            <Row>
+              <Col>
+                <Parameters
+                  onChangeLinearVel={this.onChangeLinearVel}
+                  onChangeAngularVel={this.onChangeAngularVel}
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={6}>
+            <Row>
+              <Col>{this.state.isConnectedWS && <Map ros={this.ros}/>}</Col>
+            </Row>
+            <Row>
+              <Col>
+                <Container>
+                  <Header
+                    isConnected={this.state.isConnectedWS}
+                    ros={this.ros}
+                  />
+                </Container>
+              </Col>
+            </Row>
+          </Col>
+          <Col>
+            <Row>
+              <Col>{this.state.isConnectedWS ? <Camera ros={this.ros} number={2} /> : <Camera ros={null} number={2} />}</Col>
+            </Row>
+            <Row>
+              <Col>{this.state.isConnectedWS ?
+                <Controller ros={this.ros} linearVel={this.state.linearVel} angularVel={this.state.angularVel} /> : 
+                <Controller ros={null}/>}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }
 
-export default App;
+export default MainPage;
