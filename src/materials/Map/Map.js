@@ -57,7 +57,6 @@ class Map extends Component {
         this.setState({ stations: res.station_list });
       });
     }
-    console.log("Map dismount")
   }
 
   onAddStation(newStation) {
@@ -201,7 +200,7 @@ class Map extends Component {
                   <Alert variant="info">{this.state.message}</Alert>
                 }
               </Container >
-              
+
               <Nav2d
                 id='random'
                 imageRobot={require('./kobuki.png')}
@@ -216,7 +215,6 @@ class Map extends Component {
                 stationName={this.state.stationName}
                 station={this.state.stations}
               />
-
               <Container>
                 <Button
                   variant="danger"

@@ -66,8 +66,8 @@ Nav2d.defaultProps = {
     url: 'ws://localhost:9090'
   }),
   id: 'nav2d',
-  width: 500,
-  height: 500,
+  width: 700,
+  height: 700,
   serverName: '/move_base'
 };
 

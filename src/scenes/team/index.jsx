@@ -6,6 +6,8 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import { rosServer, isConnected } from "../../global";
+import Map from "../../materials/Map/Map"
 
 const Team = () => {
   const theme = useTheme();

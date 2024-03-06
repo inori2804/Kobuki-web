@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ROSLIB from "roslib";
 import "./MainPage.css";
+import { setRosServer, setIsConnected } from '../../global';
 
 class MainPage extends Component {
   constructor(props) {
@@ -39,6 +40,10 @@ class MainPage extends Component {
       this.setState({ isConnectedWS: true });
       console.log("Connected to websocket server " + this.url);
       this.registerTopic();
+
+      //update global variable
+      setRosServer(this.ros);
+      setIsConnected(true);
     });
     this.ros.on("error", (err) => {
       console.log("Error connecting to websocket server ", err);

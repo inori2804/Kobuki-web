@@ -8,6 +8,10 @@ import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import MainPage from "../../materials/MainPage/MainPage"
+import { Container, Col, Row } from 'react-bootstrap';
+import Map from "../../materials/Map/Map";
+import { isConnected, rosServer } from "../../global";
+
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -118,9 +122,9 @@ const Dashboard = () => {
               />
             }
           />
-            <MainPage />
         </Box>
       </Box>
+          {isConnected && <Map ros={rosServer} />}
     </Box>
 
   );

@@ -1,4 +1,13 @@
-let ros = null;
-let isConnectedWS = false;
+let rosServer = null;
+let isConnected = false;
 
-export { ros, isConnectedWS };
+
+function setRosServer(newValue) {
+  rosServer = newValue;
+}
+
+function setIsConnected(newValue) {
+  isConnected = newValue;
+}
+
+export { rosServer, isConnected, setRosServer, setIsConnected };
