@@ -17,6 +17,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
     "react-chartjs-2": "^4.3.1",
+    "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
     "react-nav2djs": "file:react-nav2djs-0.0.3/package",
     "react-pro-sidebar": "^0.7.1",

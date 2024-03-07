@@ -19,25 +19,27 @@ class Camera extends Component {
   }
 
   subcribeCameraTopic() {
-    let id = "camera_0" + this.props.number + "_id";
-    this.subCamera.subscribe(function(message) {
-      document.getElementById(id).src = "data:image/jpg;base64," + message.data;
-    });
+    if(this.subCamera) {
+      let id = "camera_01";
+      this.subCamera.subscribe(function(message) {
+        document.getElementById(id).src = "data:image/jpg;base64," + message.data;
+      });
+    }
   }
   unsubscribeCameraTopic() {
-    let id = "camera_0" + this.props.number + "_id";
+    let id = "camera_01";
     if (this.subCamera) {
       this.subCamera.unsubscribe();
       document.getElementById(id).src = tempImage;
     }
   }
 
-  componentDidUpdate() {
-    if (this.ros == null) {
+  componentDidMount() {
+    if (this.ros != null) {
       this.ros = this.props.ros;
       this.subCamera = new ROSLIB.Topic({
         ros: this.ros,
-        name: '/camera_0' + this.props.number + '/rgb/image_raw/compressed',
+        name: '/camera_01/rgb/image_raw/compressed',
         messageType: 'sensor_msgs/CompressedImage'
       });
     }
@@ -65,7 +67,7 @@ class Camera extends Component {
               </Col>
             </Row>
             <Container className="camera-container">
-              <img id={"camera_0" + this.props.number + "_id"} width={320} src={tempImage} alt="new"></img>
+              <img id={"camera_01"} width={320} src={tempImage} alt="new"></img>
             </Container>
           </Card.Body>
         </Card>

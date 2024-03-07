@@ -10,6 +10,7 @@ import StatBox from "../../components/StatBox";
 import MainPage from "../../materials/MainPage/MainPage"
 import { Container, Col, Row } from 'react-bootstrap';
 import Map from "../../materials/Map/Map";
+import Status from "../../materials/Status/Status";
 import { isConnected, rosServer } from "../../global";
 
 
@@ -124,7 +125,8 @@ const Dashboard = () => {
           />
         </Box>
       </Box>
-          {isConnected && <Map ros={rosServer} />}
+          {isConnected && <Map ros={rosServer}/>}
+          {isConnected && <Status ros={rosServer}/>}
     </Box>
 
   );

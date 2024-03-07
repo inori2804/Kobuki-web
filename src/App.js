@@ -11,6 +11,7 @@ import { setIsConnected, setRosServer } from "./global"
 import { useTheme } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { useState } from "react";
+import Contacts from './scenes/contacts';
 
 class App extends Component {
   constructor(props) {
@@ -95,6 +96,7 @@ class App extends Component {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
+              <Route path="/contacts" element={<Contacts />} />
             </Routes>
           </main>
         </div>
