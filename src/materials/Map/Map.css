@@ -1,5 +1,6 @@
 .map-container {
   min-height: 20rem;
+  flex: 1;
   display: flex;
   justify-content: space-between;
 }
@@ -14,7 +15,9 @@
 .map-render {
   flex: 1;
 }
-
+.map-waypoints {
+  
+}
 .map-button {
   /* margin-right: 0.3rem; */
   margin-bottom: 8px;

@@ -7,12 +7,40 @@ import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import Map from "../../materials/Map/Map";
+import Status from "../../materials/Status/Status";
 import { isConnected, rosServer } from "../../global";
-import Waypoints from "../../materials/Waypoints/Waypoints";
+import { useEffect, useState } from "react";
+import ROSLIB from "roslib";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [velocity, setVelocity] = useState("0.00");
+  let subVelocity = null;
+
+  const regVelocityTopic = () => {
+    if (rosServer !== null) {
+      subVelocity = new ROSLIB.Topic({
+        ros: rosServer,
+        name: "/mobile_base/commands/velocity",
+        messageType: "geometry_msgs/Twist",
+      });
+    }
+  };
+
+  useEffect(() => {
+    try {
+      regVelocityTopic();
+      subVelocity.subscribe(function (message) {
+        setVelocity(Math.abs(Math.round(message.linear.x * 100) / 100).toFixed(2));
+      });
+      return () => {
+        subVelocity.unsubscribe();
+      };
+    } catch (e) {
+      console.error(`Kệ nó đi :vv ${e.message}`);
+    }
+  }, []);
 
   return (
     <Box m='20px'>
@@ -62,11 +90,11 @@ const Dashboard = () => {
           justifyContent='center'
         >
           <StatBox
-            title='32,441'
-            subtitle='New Clients'
-            progress='0.30'
-            increase='+5%'
-            icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            title={`${velocity}`}
+            subtitle='Velocity (m/s)'
+            progress='0.5'
+            // increase='+5%'
+            // icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
         <Box
@@ -88,9 +116,9 @@ const Dashboard = () => {
       <Divider sx={{ mt: "24px", mb: "24px" }} />
       <Stack direction={"row"} columnGap={"12px"} display={"flex"} style={{ justifyContent: "space-between" }}>
         <Box flex={2}>{isConnected && <Map ros={rosServer} />}</Box>
-        <Box flex={1}>
+        {/* <Box flex={1}>
           {isConnected && <Waypoints />}
-        </Box>
+        </Box> */}
       </Stack>
     </Box>
   );

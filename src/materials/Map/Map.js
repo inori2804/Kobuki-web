@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Container, Card, Button, Form, Row, Col, Alert, Modal } from "react-bootstrap";
 import ROSLIB from "roslib";
 import Nav2d from "react-nav2djs";
-import "./Map.css";
-import "../CommonStyle.css";
+import Waypoints from "../Waypoints/Waypoints";
 
+import "../CommonStyle.css";
+import "./Map.css";
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -269,6 +270,9 @@ class Map extends Component {
               stationName={this.state.stationName}
               station={this.state.stations}
             />
+          </Container>
+          <Container className="map-waypoints" style={{padding: 0}}>
+            <Waypoints state={this.state} onClickStation={this.onClickStation} />
           </Container>
           <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
             <Modal.Header closeButton>

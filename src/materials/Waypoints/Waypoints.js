@@ -1,42 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Form, FormGroup, Stack } from "react-bootstrap";
 
-const items = [
-  {
-    id: "01",
-    name: "Point 01",
-  },
-  {
-    id: "02",
-    name: "Point 02",
-  },
-  {
-    id: "03",
-    name: "Point 03",
-  },
-  {
-    id: "04",
-    name: "Point 04",
-  },
-  {
-    id: "05",
-    name: "Point 05",
-  },
-  {
-    id: "06",
-    name: "Point 06",
-  },
-  {
-    id: "07",
-    name: "Point 07",
-  },
-];
-
-function Waypoints() {
+function Waypoints({ state, onClickStation, ...props }) {
   const [selected, setSelected] = useState(null);
 
   const handleSelect = (e) => {
     setSelected(e.target.value);
+    onClickStation(e.target.value);
   };
 
   return (
@@ -45,7 +15,7 @@ function Waypoints() {
         <h4>Waypoints</h4>
       </Stack>
       <Stack>
-        {items.map((item) => (
+        {state.stations.map((item) => (
           <Button
             key={item.id}
             style={{
@@ -56,10 +26,10 @@ function Waypoints() {
               padding: "8px 16px",
               width: "100%",
             }}
-            className={`${item.name === selected ? "btn-color-active" : ""} select-button btn-color`}
+            className={`${item.id === selected ? "btn-color-active" : ""} select-button btn-color`}
             onClick={handleSelect}
-            selected={item.name === selected}
-            value={item.name}
+            selected={item.id === selected}
+            value={item.id}
           >
             {item.name}
           </Button>
