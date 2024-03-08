@@ -3,8 +3,9 @@ import { Container, Card, Col, Row } from "react-bootstrap";
 import ROSLIB from "roslib";
 import "../CommonStyle.css";
 import "./Camera.css";
+import { Typography } from "@mui/material";
 
-var tempImage = require('./not-available.png');
+var tempImage = require("./not-available.png");
 
 class Camera extends Component {
   constructor(props) {
@@ -19,9 +20,9 @@ class Camera extends Component {
   }
 
   subcribeCameraTopic() {
-    if(this.subCamera) {
+    if (this.subCamera) {
       let id = "camera_01";
-      this.subCamera.subscribe(function(message) {
+      this.subCamera.subscribe(function (message) {
         document.getElementById(id).src = "data:image/jpg;base64," + message.data;
       });
     }
@@ -39,40 +40,39 @@ class Camera extends Component {
       this.ros = this.props.ros;
       this.subCamera = new ROSLIB.Topic({
         ros: this.ros,
-        name: '/camera_01/rgb/image_raw/compressed',
-        messageType: 'sensor_msgs/CompressedImage'
+        name: "/camera_01/rgb/image_raw/compressed",
+        messageType: "sensor_msgs/CompressedImage",
       });
     }
   }
 
   render() {
     return (
-      <Container className="box-margin">
-        <Card border="secondary">
-          <Card.Header style={{fontSize: "1.2rem" }}><strong>Camera {this.props.number}</strong></Card.Header>
-          <Card.Body style={{padding: "1rem 0rem 0rem 0rem"}}>
-            <Row>
-              <Col>Enable Camera</Col>
-              <Col>
-                <label className="switch">
-                  <input onChange={(event) => {
-                    this.setState({enableCamera: event.target.checked});
-                    if (this.state.enableCamera) this.unsubscribeCameraTopic(); else this.subcribeCameraTopic();
-                  }
-                  }
-                  checked={this.state.enableCamera} type="checkbox"
-                />
-                  <span className="slider round"></span>
-                </label>
-              </Col>
-            </Row>
-            <Container className="camera-container">
-              <img id={"camera_01"} width={320} src={tempImage} alt="new"></img>
+      <Container className='box-margin'>
+        <Card>
+          <Card.Header style={{ display: "flex", justifyContent: 'space-between' }}>
+            <Typography sx={{fontSize: '1.2rem', fontWeight: '500'}}>Camera {this.props.number}</Typography>
+            <label className='switch'>
+              <input
+                onChange={(event) => {
+                  this.setState({ enableCamera: event.target.checked });
+                  if (this.state.enableCamera) this.unsubscribeCameraTopic();
+                  else this.subcribeCameraTopic();
+                }}
+                checked={this.state.enableCamera}
+                type='checkbox'
+              />
+              <span className='slider round'></span>
+            </label>
+          </Card.Header>
+          <Card.Body style={{ padding: 0}}>
+            <Container className='camera-container' style={{padding: 0}}>
+              <img id={"camera_01"} width={'100%'} src={tempImage} alt='new'></img>
             </Container>
           </Card.Body>
         </Card>
       </Container>
-    )
+    );
   }
 }
 

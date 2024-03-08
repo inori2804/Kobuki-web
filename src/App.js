@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
+import Team from "./scenes/teleoperation";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { setIsConnected, setRosServer } from "./global"
 import { useTheme } from "@mui/material";
@@ -95,7 +95,7 @@ class App extends Component {
             <Topbar setIsSidebar={true} />
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/team" element={<Team />} />
+              <Route path="/teleoperation" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
             </Routes>
           </main>

@@ -10,14 +10,14 @@ class Map extends Component {
     super(props);
     this.ros = props.ros || null;
     this.state = {
-      command: 'none',
-      message: 'Robot is ready !',
-      stationName: 'NoName',
+      command: "none",
+      message: "Robot is ready !",
+      stationName: "NoName",
       enableCancel: false,
       stations: [],
       goal: null,
       showModal: false,
-    }
+    };
     this.onAddStation = this.onAddStation.bind(this);
     this.onClickStation = this.onClickStation.bind(this);
     this.onSetGoal = this.onSetGoal.bind(this);
@@ -31,27 +31,27 @@ class Map extends Component {
   componentDidMount() {
     if (this.props.ros != null) {
       this.ros = this.props.ros;
-      var serverName = this.props.serverName || '/move_base';
-      var actionName = this.props.actionName || 'move_base_msgs/MoveBaseAction';
+      var serverName = this.props.serverName || "/move_base";
+      var actionName = this.props.actionName || "move_base_msgs/MoveBaseAction";
       this.actionClient = new ROSLIB.ActionClient({
         ros: this.ros,
         actionName: actionName,
-        serverName: serverName
+        serverName: serverName,
       });
       this.InsertStationService = new ROSLIB.Service({
         ros: this.ros,
-        name: '/add_station',
-        serviceType: 'kobuki_ui/AddStation',
+        name: "/add_station",
+        serviceType: "kobuki_ui/AddStation",
       });
       this.DeleteStationService = new ROSLIB.Service({
         ros: this.ros,
-        name: '/delete_station',
-        serviceType: 'kobuki_ui/DeleteStation',
+        name: "/delete_station",
+        serviceType: "kobuki_ui/DeleteStation",
       });
       this.GetStationService = new ROSLIB.Service({
         ros: this.ros,
-        name: '/get_station_list',
-        serviceType: 'kobuki_ui/GetStationList',
+        name: "/get_station_list",
+        serviceType: "kobuki_ui/GetStationList",
       });
       this.GetStationService.callService(null, (res) => {
         this.setState({ stations: res.station_list });
@@ -88,7 +88,7 @@ class Map extends Component {
       }
     });
     if (targetIndex >= 0) {
-      if (this.state.command === 'DeleteStation') {
+      if (this.state.command === "DeleteStation") {
         console.log("remove station", this.state.stations[targetIndex].name);
         var request = new ROSLIB.ServiceRequest({
           id: this.state.stations[targetIndex].id,
@@ -104,7 +104,7 @@ class Map extends Component {
           x: this.state.stations[targetIndex].orientationX,
           y: this.state.stations[targetIndex].orientationY,
           z: this.state.stations[targetIndex].orientationZ,
-          w: this.state.stations[targetIndex].orientationW
+          w: this.state.stations[targetIndex].orientationW,
         });
 
         positionVec3.x = this.state.stations[targetIndex].positionX;
@@ -112,7 +112,7 @@ class Map extends Component {
 
         var pose = new ROSLIB.Pose({
           position: positionVec3,
-          orientation: orientation
+          orientation: orientation,
         });
 
         var goal = new ROSLIB.Goal({
@@ -120,19 +120,24 @@ class Map extends Component {
           goalMessage: {
             target_pose: {
               header: {
-                frame_id: 'map'
+                frame_id: "map",
               },
               pose: pose,
-            }
-          }
+            },
+          },
         });
-        this.setState({ message: 'Robot is moving to station ' + this.state.stations[targetIndex].name, enableCancel: true, command: 'CancelGoal', goal: goal });
+        this.setState({
+          message: "Robot is moving to station " + this.state.stations[targetIndex].name,
+          enableCancel: true,
+          command: "CancelGoal",
+          goal: goal,
+        });
         goal.send();
-        goal.on('result', () => {
+        goal.on("result", () => {
           if (this.state.enableCancel === false) {
             this.setState({ showModal: true });
           } else {
-            this.setState({ showModal: true, command: 'none', message: 'Robot is ready !', enableCancel: false });
+            this.setState({ showModal: true, command: "none", message: "Robot is ready !", enableCancel: false });
           }
         });
       }
@@ -146,20 +151,20 @@ class Map extends Component {
       goalMessage: {
         target_pose: {
           header: {
-            frame_id: 'map'
+            frame_id: "map",
           },
-          pose: pose
-        }
-      }
+          pose: pose,
+        },
+      },
     });
-    this.setState({ message: 'Robot is moving to Goal', enableCancel: true, goal: goal });
+    this.setState({ message: "Robot is moving to Goal", enableCancel: true, goal: goal });
     goal.send();
-    goal.on('result', () => {
+    goal.on("result", () => {
       rootObject.removeChild(targetMarker);
       if (this.state.enableCancel === false) {
         this.setState({ showModal: true });
       } else {
-        this.setState({ showModal: true, command: 'none', message: 'Robot is ready !', enableCancel: false });
+        this.setState({ showModal: true, command: "none", message: "Robot is ready !", enableCancel: false });
       }
     });
   }
@@ -168,82 +173,123 @@ class Map extends Component {
     this.state.goal.cancel();
   }
 
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  };
+
   render() {
     return (
-      <Container className="box-margin" onClick={() => {
-        console.log("Click Map component")
-      }}>
-        <Card border="secondary">
-          <Card.Header style={{ fontSize: "1.2rem" }}><strong>Map</strong></Card.Header>
-          <Card.Body>
-            <Container className="map-container" id="map">
-              <Container className="map-controller">
-                <Button className={this.state.command === "SetGoal" ? "map-button btn-color-active" : "map-button btn-color"} onClick={() => this.setState({ command: 'SetGoal', message: 'Send goal to your robot' })}>Set Goal</Button>
-                <Button className={this.state.command === "AddStation" ? "map-button btn-color-active" : "map-button btn-color"} onClick={() => this.setState({ command: 'AddStation', message: 'Add new station', stationName: 'NoName' })}>Add Station</Button>
-                <Button className={this.state.command === "DeleteStation" ? "map-button btn-color-active" : "map-button btn-color"} onClick={() => this.setState({ command: 'DeleteStation', message: 'Click to delete station' })}>Delete Station</Button>
-                <Button className="map-button" variant='outline-warning' onClick={() => this.setState({ command: 'none', message: 'Robot is ready !' })}>Cancel</Button>
-              </Container>
-              <Container style={{ width: "28rem", height: "4rem" }}>
-                {this.state.command === 'AddStation' &&
+      <Container
+        className='box-margin'
+        style={{ padding: 0 }}
+        onClick={() => {
+          console.log("Click Map component");
+        }}
+      >
+        {/* <Card> */}
+        {/* <Card.Header style={{ fontSize: "1.2rem" }}><strong>Map</strong></Card.Header> */}
+        {/* <Card.Body> */}
+        <Container className='map-container' id='map' style={{ padding: 0 }}>
+          <Container className='map-controller'>
+            <h4>Controller</h4>
+            <Container style={{ width: "100%", minWidth: '300px', height: "4rem", padding: 0 }}>
+              {this.state.command === "AddStation" && (
+                <Alert variant='info' style={{ padding: "9px 16px", width: "100%" }}>
                   <Form onChange={(event) => this.setState({ stationName: event.target.value })}>
-                    <Form.Group as={Row} controlId="formHorizontalEmail">
+                    <Form.Group as={Row} controlId='formHorizontalEmail'>
                       <Form.Label column sm={3}>
                         Station:
                       </Form.Label>
                       <Col sm={8}>
-                        <Form.Control type="text" placeholder="ex: Table" />
+                        <Form.Control type='text' placeholder='ex: Table' />
                       </Col>
                     </Form.Group>
                   </Form>
-                }
-                {this.state.command !== 'AddStation' &&
-                  <Alert variant="info">{this.state.message}</Alert>
-                }
-              </Container >
-
-              <Nav2d
-                id='random'
-                imageRobot={require('./kobuki.png')}
-                imageGoalArrow={require('./arrow-red.png')}
-                imageStationArrow={require('./arrow-green.png')}
-                ros={this.ros}
-                serverName='/move_base'
-                command={this.state.command}
-                onSetGoal={(obj, targetMarker, pose) => this.onSetGoal(obj, targetMarker, pose)}
-                onAddStation={(newStation) => this.onAddStation(newStation)}
-                onClickStation={(station) => this.onClickStation(station)}
-                stationName={this.state.stationName}
-                station={this.state.stations}
-              />
-              <Container>
-                <Button
-                  variant="danger"
-                  disabled={this.state.enableCancel ? false : true}
-                  onClick={() => {
-                    this.setState({ command: 'CancelGoal', message: 'Goal was canceled', enableCancel: false });
-                    this.cancelGoal();
-                  }}>
-                  Cancel Goal
-                </Button>
-              </Container>
-              <Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
-                <Modal.Header closeButton>
-                  <Modal.Title>{this.state.command === "CancelGoal" ? "Goal cancel" : "Goal reached"}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {this.state.command === "CancelGoal" ? "The goal has been cancelled." : "The robot has reached its destination."}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={() => this.setState({ showModal: false })}>
-                    OK
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                </Alert>
+              )}
+              {this.state.command !== "AddStation" && <Alert variant='info'>{this.state.message}</Alert>}
             </Container>
-          </Card.Body>
-        </Card>
+            <Button
+              className={this.state.command === "SetGoal" ? "map-button btn-color-active" : "map-button btn-color"}
+              onClick={() => this.setState({ command: "SetGoal", message: "Send goal to your robot" })}
+            >
+              Set Goal
+            </Button>
+            <Button
+              className={this.state.command === "AddStation" ? "map-button btn-color-active" : "map-button btn-color"}
+              onClick={() =>
+                this.setState({ command: "AddStation", message: "Add new station", stationName: "NoName" })
+              }
+            >
+              Add Station
+            </Button>
+            <Button
+              className={
+                this.state.command === "DeleteStation" ? "map-button btn-color-active" : "map-button btn-color"
+              }
+              onClick={() => this.setState({ command: "DeleteStation", message: "Click to delete station" })}
+            >
+              Delete Station
+            </Button>
+            <Button
+              className='map-button'
+              variant='outline-warning'
+              onClick={() => this.setState({ command: "none", message: "Robot is ready !" })}
+            >
+              Cancel
+            </Button>
+
+            <Container style={{padding: 0}}>
+              <Button
+                variant='danger'
+                style={{width: '100%'}}
+                disabled={this.state.enableCancel ? false : true}
+                onClick={() => {
+                  this.setState({ command: "CancelGoal", message: "Goal was canceled", enableCancel: false });
+                  this.cancelGoal();
+                }}
+              >
+                Cancel Goal
+              </Button>
+            </Container>
+          </Container>
+          <Container className='map-render'>
+            <h4>Map</h4>
+            <Nav2d
+              id='random'
+              imageRobot={require("./kobuki.png")}
+              imageGoalArrow={require("./arrow-red.png")}
+              imageStationArrow={require("./arrow-green.png")}
+              ros={this.ros}
+              serverName='/move_base'
+              command={this.state.command}
+              onSetGoal={(obj, targetMarker, pose) => this.onSetGoal(obj, targetMarker, pose)}
+              onAddStation={(newStation) => this.onAddStation(newStation)}
+              onClickStation={(station) => this.onClickStation(station)}
+              stationName={this.state.stationName}
+              station={this.state.stations}
+            />
+          </Container>
+          <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>{this.state.command === "CancelGoal" ? "Goal cancel" : "Goal reached"}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {this.state.command === "CancelGoal"
+                ? "The goal has been cancelled."
+                : "The robot has reached its destination."}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant='primary' onClick={this.handleCloseModal}>
+                OK
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Container>
+        {/* </Card.Body> */}
+        {/* </Card> */}
       </Container>
-    )
+    );
   }
 }
 

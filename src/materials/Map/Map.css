@@ -1,13 +1,23 @@
 .map-container {
   min-height: 20rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .map-controller {
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.map-render {
+  flex: 1;
 }
 
 .map-button {
-  margin-right: 0.3rem;
+  /* margin-right: 0.3rem; */
+  margin-bottom: 8px;
 }
 
 .btn-color {
