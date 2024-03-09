@@ -19,7 +19,7 @@ const Teleoperation = () => {
   return (
     <Box m='20px'>
       <Box display='flex' justifyContent='space-between' alignItems='center'>
-        <Header title='TELEOPERATION' subtitle='Subtitle' />
+        <Header title='Teleoperations'/>
       </Box>
       {/* GRID & CHARTS */}
       <Box display='grid' gridTemplateColumns='repeat(12, 1fr)' gridAutoRows='140px' gap='20px'>

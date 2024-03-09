@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Card, Button, Form, Row, Col, Alert, Modal } from "react-bootstrap";
+import { Container, Button, Form, Row, Col, Alert, Modal } from "react-bootstrap";
 import ROSLIB from "roslib";
 import Nav2d from "react-nav2djs";
 import Waypoints from "../Waypoints/Waypoints";
@@ -128,7 +128,7 @@ class Map extends Component {
           },
         });
         this.setState({
-          message: "Robot is moving to station " + this.state.stations[targetIndex].name,
+          message: "Robot is moving to the Waypoint: " + this.state.stations[targetIndex].name,
           enableCancel: true,
           command: "CancelGoal",
           goal: goal,
@@ -187,22 +187,19 @@ class Map extends Component {
           console.log("Click Map component");
         }}
       >
-        {/* <Card> */}
-        {/* <Card.Header style={{ fontSize: "1.2rem" }}><strong>Map</strong></Card.Header> */}
-        {/* <Card.Body> */}
         <Container className='map-container' id='map' style={{ padding: 0 }}>
           <Container className='map-controller'>
-            <h4>Controller</h4>
+            <h4 style={{ textAlign: 'center' }}>Controller</h4>
             <Container style={{ width: "100%", minWidth: '300px', height: "4rem", padding: 0 }}>
               {this.state.command === "AddStation" && (
                 <Alert variant='info' style={{ padding: "9px 16px", width: "100%" }}>
                   <Form onChange={(event) => this.setState({ stationName: event.target.value })}>
                     <Form.Group as={Row} controlId='formHorizontalEmail'>
                       <Form.Label column sm={3}>
-                        Station:
+                        Waypoint:
                       </Form.Label>
                       <Col sm={8}>
-                        <Form.Control type='text' placeholder='ex: Table' />
+                        <Form.Control type='text' placeholder='ex: Position 1' />
                       </Col>
                     </Form.Group>
                   </Form>
@@ -212,32 +209,32 @@ class Map extends Component {
             </Container>
             <Button
               className={this.state.command === "SetGoal" ? "map-button btn-color-active" : "map-button btn-color"}
-              onClick={() => this.setState({ command: "SetGoal", message: "Send goal to your robot" })}
+              onClick={() => this.setState({ command: "SetGoal", message: "Please choose the destion on the Map" })}
             >
-              Set Goal
+              Creating the new Goal
             </Button>
             <Button
               className={this.state.command === "AddStation" ? "map-button btn-color-active" : "map-button btn-color"}
               onClick={() =>
-                this.setState({ command: "AddStation", message: "Add new station", stationName: "NoName" })
+                this.setState({ command: "AddStation", message: "Adding the new Waypoint", stationName: "NoName" })
               }
             >
-              Add Station
+              Creating the new Waypoint
             </Button>
             <Button
               className={
                 this.state.command === "DeleteStation" ? "map-button btn-color-active" : "map-button btn-color"
               }
-              onClick={() => this.setState({ command: "DeleteStation", message: "Click to delete station" })}
+              onClick={() => this.setState({ command: "DeleteStation", message: "Click to delete the Waypoint" })}
             >
-              Delete Station
+              Deleting the Waypoint
             </Button>
             <Button
               className='map-button'
               variant='outline-warning'
               onClick={() => this.setState({ command: "none", message: "Robot is ready !" })}
             >
-              Cancel
+              Canceling the Action
             </Button>
 
             <Container style={{padding: 0}}>
@@ -246,21 +243,21 @@ class Map extends Component {
                 style={{width: '100%'}}
                 disabled={this.state.enableCancel ? false : true}
                 onClick={() => {
-                  this.setState({ command: "CancelGoal", message: "Goal was canceled", enableCancel: false });
+                  this.setState({ command: "CancelGoal", message: "Canceling the Command", enableCancel: false });
                   this.cancelGoal();
                 }}
               >
-                Cancel Goal
+                Canceling the current Goal
               </Button>
             </Container>
           </Container>
           <Container className='map-render'>
-            <h4>Map</h4>
+            <h4 style={{ textAlign: 'center' }}>Map</h4>
             <Nav2d
               id='random'
               imageRobot={require("./kobuki.png")}
-              imageGoalArrow={require("./arrow-red.png")}
-              imageStationArrow={require("./arrow-green.png")}
+              imageGoalArrow={require("./waypoint-red.png")}
+              imageStationArrow={require("./waypoint-green.png")}
               ros={this.ros}
               serverName='/move_base'
               command={this.state.command}
@@ -276,7 +273,7 @@ class Map extends Component {
           </Container>
           <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
             <Modal.Header closeButton>
-              <Modal.Title>{this.state.command === "CancelGoal" ? "Goal cancel" : "Goal reached"}</Modal.Title>
+              <Modal.Title>{this.state.command === "CancelGoal" ? "Goal cancel" : "Action completed"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {this.state.command === "CancelGoal"

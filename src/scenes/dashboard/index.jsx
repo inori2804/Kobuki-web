@@ -1,13 +1,13 @@
 import { Box, Divider, Stack, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import EmailIcon from "@mui/icons-material/Email";
+import RouteIcon from '@mui/icons-material/Route';
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import SpeedIcon from '@mui/icons-material/Speed';
+import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import Map from "../../materials/Map/Map";
-import Status from "../../materials/Status/Status";
 import { isConnected, rosServer } from "../../global";
 import { useEffect, useState } from "react";
 import ROSLIB from "roslib";
@@ -38,7 +38,7 @@ const Dashboard = () => {
         subVelocity.unsubscribe();
       };
     } catch (e) {
-      console.error(`Kệ nó đi :vv ${e.message}`);
+      console.error(`Some error ${e.message}`);
     }
   }, []);
 
@@ -46,7 +46,7 @@ const Dashboard = () => {
     <Box m='20px'>
       {/* HEADER */}
       <Box display='flex' justifyContent='space-between' alignItems='center'>
-        <Header title='DASHBOARD' subtitle='Welcome to your dashboard' />
+        <Header title='Main Controller'/>
       </Box>
 
       {/* GRID & CHARTS */}
@@ -58,13 +58,14 @@ const Dashboard = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
             title='12,361'
-            subtitle='Emails Sent'
+            subtitle='Kobuki Battery (%)'
             progress='0.75'
             increase='+14%'
-            icon={<EmailIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={<BatteryChargingFullIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
         <Box
@@ -73,13 +74,14 @@ const Dashboard = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
             title='431,225'
-            subtitle='Sales Obtained'
+            subtitle='Estimated Distance'
             progress='0.50'
             increase='+21%'
-            icon={<PointOfSaleIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={<RouteIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
         <Box
@@ -88,13 +90,14 @@ const Dashboard = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
             title={`${velocity}`}
             subtitle='Velocity (m/s)'
             progress='0.5'
             // increase='+5%'
-            // icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={<SpeedIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
         <Box
@@ -103,6 +106,7 @@ const Dashboard = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
             title='1,325,134'
@@ -116,9 +120,6 @@ const Dashboard = () => {
       <Divider sx={{ mt: "24px", mb: "24px" }} />
       <Stack direction={"row"} columnGap={"12px"} display={"flex"} style={{ justifyContent: "space-between" }}>
         <Box flex={2}>{isConnected && <Map ros={rosServer} />}</Box>
-        {/* <Box flex={1}>
-          {isConnected && <Waypoints />}
-        </Box> */}
       </Stack>
     </Box>
   );

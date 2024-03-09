@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Container, Form, FormGroup, Stack } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Container, Stack } from "react-bootstrap";
 
 function Waypoints({ state, onClickStation, ...props }) {
   const [selected, setSelected] = useState(null);
@@ -12,7 +12,7 @@ function Waypoints({ state, onClickStation, ...props }) {
   return (
     <Container style={{ padding: 0 }}>
       <Stack>
-        <h4>Waypoints</h4>
+        <h4 style={{ textAlign: 'center' }}>List of Waypoints</h4>
       </Stack>
       <Stack>
         {state.stations.map((item) => (
@@ -25,6 +25,7 @@ function Waypoints({ state, onClickStation, ...props }) {
               marginBottom: "4px",
               padding: "8px 16px",
               width: "100%",
+              justifyContent: "center",
             }}
             className={`${item.id === selected ? "btn-color-active" : ""} select-button btn-color`}
             onClick={handleSelect}
