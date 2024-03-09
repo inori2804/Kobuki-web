@@ -1,21 +1,48 @@
 import { Box, Divider, Typography, useTheme } from "@mui/material";
 
 import Header from "../../components/Header";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import { rosServer, isConnected } from "../../global";
 import Camera from "../../materials/Camera/Camera";
-import Map from "../../materials/Map/Map";
 import { tokens } from "../../theme";
 import StatBox from "../../components/StatBox";
-import { Card, Stack } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import ArrowController from "../../materials/ArrowController/ArrowController";
+import RouteIcon from '@mui/icons-material/Route';
+import SpeedIcon from '@mui/icons-material/Speed';
+import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
+import { useEffect, useState } from "react";
+import ROSLIB from "roslib";
 
 const Teleoperation = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [velocity, setVelocity] = useState("0.00");
+  let subVelocity = null;
+
+  const regVelocityTopic = () => {
+    if (rosServer !== null) {
+      subVelocity = new ROSLIB.Topic({
+        ros: rosServer,
+        name: "/mobile_base/commands/velocity",
+        messageType: "geometry_msgs/Twist",
+      });
+    }
+  };
+
+  useEffect(() => {
+    try {
+      regVelocityTopic();
+      subVelocity.subscribe(function (message) {
+        setVelocity(Math.abs(Math.round(message.linear.x * 100) / 100).toFixed(2));
+      });
+      return () => {
+        subVelocity.unsubscribe();
+      };
+    } catch (e) {
+      console.error(`Some error ${e.message}`);
+    }
+  }, []);
   return (
     <Box m='20px'>
       <Box display='flex' justifyContent='space-between' alignItems='center'>
@@ -30,13 +57,14 @@ const Teleoperation = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
             title='12,361'
-            subtitle='Emails Sent'
+            subtitle='Kobuki Battery (%)'
             progress='0.75'
             increase='+14%'
-            icon={<EmailIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={<BatteryChargingFullIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
         <Box
@@ -45,13 +73,14 @@ const Teleoperation = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
             title='431,225'
-            subtitle='Sales Obtained'
+            subtitle='Estimated Distance'
             progress='0.50'
             increase='+21%'
-            icon={<PointOfSaleIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={<RouteIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
         <Box
@@ -60,13 +89,14 @@ const Teleoperation = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
-            title='32,441'
-            subtitle='New Clients'
-            progress='0.30'
-            increase='+5%'
-            icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            title={`${velocity}`}
+            subtitle='Velocity (m/s)'
+            progress='0.5'
+            // increase='+5%'
+            icon={<SpeedIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
           />
         </Box>
         <Box
@@ -75,6 +105,7 @@ const Teleoperation = () => {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          borderRadius={5}
         >
           <StatBox
             title='1,325,134'

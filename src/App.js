@@ -89,14 +89,13 @@ class App extends Component {
   render() {
     return (<>
         <CssBaseline />
-        <div className="app">
+        <div className="app" style={{ backgroundColor: "#141b2d" }}>
           <Sidebar isSidebar={true} />
           <main className="content">
             <Topbar setIsSidebar={true} />
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/teleoperation" element={<Team />} />
-              <Route path="/contacts" element={<Contacts />} />
             </Routes>
           </main>
         </div>

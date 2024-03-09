@@ -1,8 +1,15 @@
 import React, { Component } from "react";
-import { Container, Button, Form, Row, Col, Alert, Modal } from "react-bootstrap";
+import { Container, Form, Row, Col, Alert, Modal } from "react-bootstrap";
 import ROSLIB from "roslib";
 import Nav2d from "react-nav2djs";
 import Waypoints from "../Waypoints/Waypoints";
+import { Box, Button } from "@mui/material";
+import NearMeDisabledIcon from '@mui/icons-material/NearMeDisabled';
+import NearMeIcon from '@mui/icons-material/NearMe';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import LocationOffIcon from '@mui/icons-material/LocationOff';
+import CancelIcon from '@mui/icons-material/Cancel';
+import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 
 import "../CommonStyle.css";
 import "./Map.css";
@@ -189,7 +196,7 @@ class Map extends Component {
       >
         <Container className='map-container' id='map' style={{ padding: 0 }}>
           <Container className='map-controller'>
-            <h4 style={{ textAlign: 'center' }}>Controller</h4>
+            <h4 style={{ textAlign: 'center', color: "white" }}>CONTROLLER</h4>
             <Container style={{ width: "100%", minWidth: '300px', height: "4rem", padding: 0 }}>
               {this.state.command === "AddStation" && (
                 <Alert variant='info' style={{ padding: "9px 16px", width: "100%" }}>
@@ -207,52 +214,108 @@ class Map extends Component {
               )}
               {this.state.command !== "AddStation" && <Alert variant='info'>{this.state.message}</Alert>}
             </Container>
-            <Button
-              className={this.state.command === "SetGoal" ? "map-button btn-color-active" : "map-button btn-color"}
-              onClick={() => this.setState({ command: "SetGoal", message: "Please choose the destion on the Map" })}
-            >
-              Creating the new Goal
-            </Button>
-            <Button
-              className={this.state.command === "AddStation" ? "map-button btn-color-active" : "map-button btn-color"}
-              onClick={() =>
-                this.setState({ command: "AddStation", message: "Adding the new Waypoint", stationName: "NoName" })
-              }
-            >
-              Creating the new Waypoint
-            </Button>
-            <Button
-              className={
-                this.state.command === "DeleteStation" ? "map-button btn-color-active" : "map-button btn-color"
-              }
-              onClick={() => this.setState({ command: "DeleteStation", message: "Click to delete the Waypoint" })}
-            >
-              Deleting the Waypoint
-            </Button>
-            <Button
-              className='map-button'
-              variant='outline-warning'
-              onClick={() => this.setState({ command: "none", message: "Robot is ready !" })}
-            >
-              Canceling the Action
-            </Button>
-
-            <Container style={{padding: 0}}>
+            <Box>
               <Button
-                variant='danger'
-                style={{width: '100%'}}
-                disabled={this.state.enableCancel ? false : true}
-                onClick={() => {
-                  this.setState({ command: "CancelGoal", message: "Canceling the Command", enableCancel: false });
-                  this.cancelGoal();
+                className={this.state.command === "SetGoal" ? "map-button btn-color-active" : "map-button btn-color"}
+                onClick={() => this.setState({ command: "SetGoal", message: "Please choose the destion on the Map" })}
+                sx={{
+                  backgroundColor: "#3d3d3d",
+                  color: "#e0e0e0",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  width: "100%",
                 }}
               >
-                Canceling the current Goal
+                <NearMeIcon sx={{ mr: "10px" }} />
+                Creating the new Goal
               </Button>
+            </Box>
+
+            <Box>
+              <Button
+                className={this.state.command === "AddStation" ? "map-button btn-color-active" : "map-button btn-color"}
+                onClick={() =>
+                  this.setState({ command: "AddStation", message: "Adding the new Waypoint", stationName: "NoName" })
+                }
+                sx={{
+                  backgroundColor: "#3d3d3d",
+                  color: "#e0e0e0",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  width: "100%",
+                }}
+              >
+                <AddLocationAltIcon sx={{ mr: "10px" }} />
+                Creating the new Waypoint
+              </Button>
+            </Box>
+
+            <Box>
+              <Button
+                className={
+                  this.state.command === "DeleteStation" ? "map-button btn-color-active" : "map-button btn-color"
+                }
+                onClick={() => this.setState({ command: "DeleteStation", message: "Click to delete the Waypoint" })}
+                sx={{
+                  backgroundColor: "#3d3d3d",
+                  color: "#e0e0e0",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  width: "100%",
+                }}
+              >
+                <LocationOffIcon sx={{ mr: "10px" }} />
+                Deleting the Waypoint
+              </Button>
+            </Box>
+
+            <Box>
+              <Button
+                className='map-button'
+                variant='outline-warning'
+                onClick={() => this.setState({ command: "none", message: "Robot is ready !" })}
+                sx={{
+                  backgroundColor: "#3d3d3d",
+                  color: "#e0e0e0",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  width: "100%",
+                }}
+              >
+                <CancelIcon sx={{ mr: "10px" }} />
+                Canceling the Action
+              </Button>
+            </Box>
+            <Container style={{ padding: 0 }}>
+              <Box>
+                <Button
+                  variant='danger'
+                  sx={{
+                    backgroundColor: "#3d3d3d",
+                    color: "#e0e0e0",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    padding: "10px 20px",
+                    width: "100%",
+                  }}
+                  disabled={this.state.enableCancel ? false : true}
+                  onClick={() => {
+                    this.setState({ command: "CancelGoal", message: "Canceling the Command", enableCancel: false });
+                    this.cancelGoal();
+                  }}
+                >
+                  <NearMeDisabledIcon sx={{ mr: "10px" }} />
+                  Canceling the current Goal
+                </Button>
+              </Box>
             </Container>
           </Container>
           <Container className='map-render'>
-            <h4 style={{ textAlign: 'center' }}>Map</h4>
+            <h4 style={{ textAlign: 'center' , color:"white"}}>MAP</h4>
             <Nav2d
               id='random'
               imageRobot={require("./kobuki.png")}
@@ -268,7 +331,7 @@ class Map extends Component {
               station={this.state.stations}
             />
           </Container>
-          <Container className="map-waypoints" style={{padding: 0}}>
+          <Container className="map-waypoints" style={{ padding: 0 }}>
             <Waypoints state={this.state} onClickStation={this.onClickStation} />
           </Container>
           <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
@@ -287,8 +350,6 @@ class Map extends Component {
             </Modal.Footer>
           </Modal>
         </Container>
-        {/* </Card.Body> */}
-        {/* </Card> */}
       </Container>
     );
   }

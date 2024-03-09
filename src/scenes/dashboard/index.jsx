@@ -1,10 +1,9 @@
 import { Box, Divider, Stack, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import RouteIcon from '@mui/icons-material/Route';
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import SpeedIcon from '@mui/icons-material/Speed';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
-import TrafficIcon from "@mui/icons-material/Traffic";
+import ComputerIcon from '@mui/icons-material/Computer';
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import Map from "../../materials/Map/Map";
@@ -54,39 +53,39 @@ const Dashboard = () => {
         {/* ROW 1 */}
         <Box
           gridColumn='span 3'
-          backgroundColor={colors.primary[400]}
+          backgroundColor="#1F2A40"
           display='flex'
           alignItems='center'
           justifyContent='center'
           borderRadius={5}
         >
           <StatBox
-            title='12,361'
+            title='99.00'
             subtitle='Kobuki Battery (%)'
             progress='0.75'
-            increase='+14%'
-            icon={<BatteryChargingFullIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            // increase='+14%'
+            icon={<BatteryChargingFullIcon sx={{ color: "#3da58a", fontSize: "26px" }} />}
           />
         </Box>
         <Box
           gridColumn='span 3'
-          backgroundColor={colors.primary[400]}
+          backgroundColor="#1F2A40"
           display='flex'
           alignItems='center'
           justifyContent='center'
           borderRadius={5}
         >
           <StatBox
-            title='431,225'
-            subtitle='Estimated Distance'
+            title='1.90'
+            subtitle='Estimated Distance (m)'
             progress='0.50'
-            increase='+21%'
-            icon={<RouteIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            // increase='+21%'
+            icon={<RouteIcon sx={{ color: "#3da58a", fontSize: "26px" }} />}
           />
         </Box>
         <Box
           gridColumn='span 3'
-          backgroundColor={colors.primary[400]}
+          backgroundColor="#1F2A40"
           display='flex'
           alignItems='center'
           justifyContent='center'
@@ -94,26 +93,26 @@ const Dashboard = () => {
         >
           <StatBox
             title={`${velocity}`}
-            subtitle='Velocity (m/s)'
+            subtitle='Speed (m/s)'
             progress='0.5'
             // increase='+5%'
-            icon={<SpeedIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            icon={<SpeedIcon sx={{ color: "#3da58a", fontSize: "26px" }} />}
           />
         </Box>
         <Box
           gridColumn='span 3'
-          backgroundColor={colors.primary[400]}
+          backgroundColor="#1F2A40"
           display='flex'
           alignItems='center'
           justifyContent='center'
           borderRadius={5}
         >
           <StatBox
-            title='1,325,134'
-            subtitle='Traffic Received'
+            title='70.00'
+            subtitle='Ultilization (%)'
             progress='0.80'
-            increase='+43%'
-            icon={<TrafficIcon sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />}
+            // increase='+43%'
+            icon={<ComputerIcon sx={{ color: "#3da58a", fontSize: "26px" }} />}
           />
         </Box>
       </Box>

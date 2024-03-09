@@ -19,31 +19,26 @@ const Topbar = () => {
       {/* SEARCH BAR */}
       <Box
         display="flex"
-        backgroundColor={colors.primary[400]}
+        backgroundColor="#1F2A40"
         borderRadius="3px"
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
+        <InputBase sx={{ ml: 2, flex: 1, }} placeholder="Search" />
+        <IconButton type="button" sx={{ p: 1, color: "#ffff" }}>
           <SearchIcon />
         </IconButton>
       </Box>
 
       {/* ICONS */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : (
-            <LightModeOutlinedIcon />
-          )}
+        <IconButton sx={{ color: "#ffff"}} >
         </IconButton>
-        <IconButton>
+        <IconButton sx={{ color: "#ffff"}}>
           <NotificationsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton sx={{ color: "#ffff"}}>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton sx={{ color: "#ffff"}}>
           <PersonOutlinedIcon />
         </IconButton>
       </Box>

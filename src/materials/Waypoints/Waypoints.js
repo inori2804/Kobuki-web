@@ -12,7 +12,7 @@ function Waypoints({ state, onClickStation, ...props }) {
   return (
     <Container style={{ padding: 0 }}>
       <Stack>
-        <h4 style={{ textAlign: 'center' }}>List of Waypoints</h4>
+        <h4 style={{ textAlign: 'center' ,color:"white"}}>LIST of WAYPOINTS</h4>
       </Stack>
       <Stack>
         {state.stations.map((item) => (
@@ -26,6 +26,8 @@ function Waypoints({ state, onClickStation, ...props }) {
               padding: "8px 16px",
               width: "100%",
               justifyContent: "center",
+              backgroundColor: "#E6F7FF",
+              
             }}
             className={`${item.id === selected ? "btn-color-active" : ""} select-button btn-color`}
             onClick={handleSelect}
