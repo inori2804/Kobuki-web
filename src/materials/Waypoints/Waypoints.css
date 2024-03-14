@@ -4,13 +4,13 @@
 }
 
 .btn-color {
-  color: #007bff;
+  color: #fff; /* Change to white */
   background-color: #fff;
   border-color: #007bff;
 }
 
 .btn-color-active {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  color: #0000;
+  background-color: #0000;
+  border-color: #0000;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Container, Stack } from "react-bootstrap";
+import { Container, Stack } from "react-bootstrap";
+import {Button} from "@mui/material"
 
 function Waypoints({ state, onClickStation, ...props }) {
   const [selected, setSelected] = useState(null);
@@ -18,7 +19,7 @@ function Waypoints({ state, onClickStation, ...props }) {
         {state.stations.map((item) => (
           <Button
             key={item.id}
-            style={{
+            sx={{
               display: "flex",
               alignItems: "center",
               fontSize: 16,
@@ -26,8 +27,12 @@ function Waypoints({ state, onClickStation, ...props }) {
               padding: "8px 16px",
               width: "100%",
               justifyContent: "center",
-              backgroundColor: "#E6F7FF",
-              
+              backgroundColor: item.id === selected ? 'blue' : "#4cceac",
+              color: item.id === selected ? 'white' : 'white',
+              "&:hover": {
+                backgroundColor: "#B47800",
+                color: "black", // You can adjust the text color when hovering
+              },
             }}
             className={`${item.id === selected ? "btn-color-active" : ""} select-button btn-color`}
             onClick={handleSelect}

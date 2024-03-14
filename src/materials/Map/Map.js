@@ -9,7 +9,6 @@ import NearMeIcon from '@mui/icons-material/NearMe';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import LocationOffIcon from '@mui/icons-material/LocationOff';
 import CancelIcon from '@mui/icons-material/Cancel';
-import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
 
 import "../CommonStyle.css";
 import "./Map.css";
@@ -19,7 +18,7 @@ class Map extends Component {
     this.ros = props.ros || null;
     this.state = {
       command: "none",
-      message: "Robot is ready !",
+      message: "Robot is waitting for the new action !",
       stationName: "NoName",
       enableCancel: false,
       stations: [],
@@ -145,7 +144,7 @@ class Map extends Component {
           if (this.state.enableCancel === false) {
             this.setState({ showModal: true });
           } else {
-            this.setState({ showModal: true, command: "none", message: "Robot is ready !", enableCancel: false });
+            this.setState({ showModal: true, command: "none", message: "Robot is waitting for the new action !", enableCancel: false });
           }
         });
       }
@@ -172,7 +171,7 @@ class Map extends Component {
       if (this.state.enableCancel === false) {
         this.setState({ showModal: true });
       } else {
-        this.setState({ showModal: true, command: "none", message: "Robot is ready !", enableCancel: false });
+        this.setState({ showModal: true, command: "none", message: "Robot is waitting for the new action !", enableCancel: false });
       }
     });
   }
@@ -214,17 +213,19 @@ class Map extends Component {
               )}
               {this.state.command !== "AddStation" && <Alert variant='info'>{this.state.message}</Alert>}
             </Container>
-            <Box>
+            <Box sx={{ paddingTop: "10px" }}>
               <Button
                 className={this.state.command === "SetGoal" ? "map-button btn-color-active" : "map-button btn-color"}
                 onClick={() => this.setState({ command: "SetGoal", message: "Please choose the destion on the Map" })}
                 sx={{
-                  backgroundColor: "#3d3d3d",
+                  backgroundColor: "#0000FF",
                   color: "#e0e0e0",
                   fontSize: "14px",
                   fontWeight: "bold",
-                  padding: "10px 20px",
+                  padding: "10px 20px 10px 50px",
                   width: "100%",
+                  display: 'flex',
+                  justifyContent: 'flex-start',
                 }}
               >
                 <NearMeIcon sx={{ mr: "10px" }} />
@@ -232,19 +233,21 @@ class Map extends Component {
               </Button>
             </Box>
 
-            <Box>
+            <Box sx={{ paddingTop: "10px" }}>
               <Button
                 className={this.state.command === "AddStation" ? "map-button btn-color-active" : "map-button btn-color"}
                 onClick={() =>
                   this.setState({ command: "AddStation", message: "Adding the new Waypoint", stationName: "NoName" })
                 }
                 sx={{
-                  backgroundColor: "#3d3d3d",
+                  backgroundColor: "#008000",
                   color: "#e0e0e0",
                   fontSize: "14px",
                   fontWeight: "bold",
-                  padding: "10px 20px",
+                  padding: "10px 20px 10px 50px",
                   width: "100%",
+                  display: 'flex',
+                  justifyContent: 'flex-start',
                 }}
               >
                 <AddLocationAltIcon sx={{ mr: "10px" }} />
@@ -252,19 +255,21 @@ class Map extends Component {
               </Button>
             </Box>
 
-            <Box>
+            <Box sx={{ paddingTop: "10px" }}>
               <Button
                 className={
                   this.state.command === "DeleteStation" ? "map-button btn-color-active" : "map-button btn-color"
                 }
                 onClick={() => this.setState({ command: "DeleteStation", message: "Click to delete the Waypoint" })}
                 sx={{
-                  backgroundColor: "#3d3d3d",
+                  backgroundColor: "#B47800",
                   color: "#e0e0e0",
                   fontSize: "14px",
                   fontWeight: "bold",
-                  padding: "10px 20px",
+                  padding: "10px 20px 10px 50px",
                   width: "100%",
+                  display: 'flex',
+                  justifyContent: 'flex-start',
                 }}
               >
                 <LocationOffIcon sx={{ mr: "10px" }} />
@@ -272,50 +277,52 @@ class Map extends Component {
               </Button>
             </Box>
 
-            <Box>
+            <Box sx={{ paddingTop: "10px" }}>
               <Button
                 className='map-button'
                 variant='outline-warning'
-                onClick={() => this.setState({ command: "none", message: "Robot is ready !" })}
+                onClick={() => this.setState({ command: "none", message: "Robot is waitting for the new action !" })}
                 sx={{
                   backgroundColor: "#3d3d3d",
                   color: "#e0e0e0",
                   fontSize: "14px",
                   fontWeight: "bold",
-                  padding: "10px 20px",
+                  padding: "10px 20px 10px 50px",
                   width: "100%",
+                  display: 'flex',
+                  justifyContent: 'flex-start',
                 }}
               >
                 <CancelIcon sx={{ mr: "10px" }} />
                 Canceling the Action
               </Button>
             </Box>
-            <Container style={{ padding: 0 }}>
-              <Box>
-                <Button
-                  variant='danger'
-                  sx={{
-                    backgroundColor: "#3d3d3d",
-                    color: "#e0e0e0",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    padding: "10px 20px",
-                    width: "100%",
-                  }}
-                  disabled={this.state.enableCancel ? false : true}
-                  onClick={() => {
-                    this.setState({ command: "CancelGoal", message: "Canceling the Command", enableCancel: false });
-                    this.cancelGoal();
-                  }}
-                >
-                  <NearMeDisabledIcon sx={{ mr: "10px" }} />
-                  Canceling the current Goal
-                </Button>
-              </Box>
-            </Container>
+            <Box sx={{paddingTop: "10px"}}>
+              <Button
+                variant='danger'
+                sx={{
+                  backgroundColor: "#FF0000",
+                  color: "#e0e0e0",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 20px 10px 50px",
+                  width: "100%",
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
+                disabled={this.state.enableCancel ? false : true}
+                onClick={() => {
+                  this.setState({ command: "CancelGoal", message: "Canceling the Command", enableCancel: false });
+                  this.cancelGoal();
+                }}
+              >
+                <NearMeDisabledIcon sx={{ mr: "10px" }} />
+                Canceling the current Goal
+              </Button>
+            </Box>
           </Container>
           <Container className='map-render'>
-            <h4 style={{ textAlign: 'center' , color:"white"}}>MAP</h4>
+            <h4 style={{ textAlign: 'center', color: "white" }}>MAP</h4>
             <Nav2d
               id='random'
               imageRobot={require("./kobuki.png")}

@@ -50,8 +50,8 @@ class Camera extends Component {
     return (
       <Container className='box-margin'>
         <Card>
-          <Card.Header style={{ display: "flex", justifyContent: 'space-between' }}>
-            <Typography sx={{fontSize: '1.2rem', fontWeight: '500'}}>Camera {this.props.number}</Typography>
+          <Card.Header style={{ display: "flex", justifyContent: 'space-between', backgroundColor: "#1F2A40"}}>
+            <Typography sx={{fontSize: '1.2rem', fontWeight: '500', color:"#ffff"}}>CAMERA {this.props.number}</Typography>
             <label className='switch'>
               <input
                 onChange={(event) => {
