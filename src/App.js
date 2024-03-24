@@ -8,10 +8,6 @@ import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/teleoperation";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { setIsConnected, setRosServer } from "./global"
-import { useTheme } from "@mui/material";
-import { ColorModeContext, useMode } from "./theme";
-import { useState } from "react";
-import Contacts from './scenes/contacts';
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +17,8 @@ class App extends Component {
       linearVel: 0.2,
       angularVel: 0.45,
     };
-    this.url = "ws://192.168.0.112:9090";
+    this.url = "ws://192.168.0.109:9090";
+    // this.url = "ws://localhost:9090";
     this.ros = null;
     this.cmdVel = null;
     this.connectWebsocket = this.connectWebsocket.bind(this);

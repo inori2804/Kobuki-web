@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Card, Col, Row } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import ROSLIB from "roslib";
 import "../CommonStyle.css";
 import "./Camera.css";
@@ -40,7 +40,7 @@ class Camera extends Component {
       this.ros = this.props.ros;
       this.subCamera = new ROSLIB.Topic({
         ros: this.ros,
-        name: "/camera_01/rgb/image_raw/compressed",
+        name: "/camera/color/image_raw/compressed",
         messageType: "sensor_msgs/CompressedImage",
       });
     }

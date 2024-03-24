@@ -1,7 +1,6 @@
 let rosServer = null;
 let isConnected = false;
 
-
 function setRosServer(newValue) {
   rosServer = newValue;
 }
